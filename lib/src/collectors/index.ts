@@ -1,0 +1,13 @@
+export { allMatch } from './allMatch';
+export { anyMatch } from './anyMatch';
+export { average } from './average';
+export { count } from './count';
+export { findFirst } from './findFirst';
+export { findLast } from './findLast';
+export { groupBy } from './groupBy';
+export { max } from './max';
+export { min } from './min';
+export { noneMatch } from './noneMatch';
+export { sum } from './sum';
+export { toArray } from './toArray';
+export { toMap } from './toMap';

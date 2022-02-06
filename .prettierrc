@@ -1,0 +1,24 @@
+{
+  "arrowParens": "avoid",
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "jsxSingleQuote": true,
+  "printWidth": 120,
+  "proseWrap": "always",
+  "quoteProps": "as-needed",
+  "semi": true,
+  "singleAttributePerLine": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "none",
+  "overrides": [
+    {
+      "files": "*.{scss,html,json}",
+      "options": {
+        "singleQuote": true,
+        "tabWidth": 4
+      }
+    }
+  ]
+}

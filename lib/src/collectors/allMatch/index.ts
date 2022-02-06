@@ -1,0 +1,1 @@
+export { allMatch } from './allMatch';

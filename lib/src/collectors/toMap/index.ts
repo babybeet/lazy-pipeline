@@ -1,0 +1,1 @@
+export { toMap } from './toMap';

@@ -1,0 +1,1 @@
+export { noneMatch } from './noneMatch';
