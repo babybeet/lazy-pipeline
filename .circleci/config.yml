@@ -1,0 +1,26 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.2
+
+jobs:
+  build_test_lint:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          command: npx prettier --check lib/src/{*.ts,**/*.ts}
+          name: Check code style format
+      - run:
+          command: npm run test
+          name: Run all tests
+      - run:
+          command: npm run build
+          name: Build library
+
+workflows:
+  verification:
+    jobs:
+      - build_test_lint

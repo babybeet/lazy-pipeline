@@ -1,0 +1,13 @@
+{
+    "collectCoverageFrom": ["src/**/*.{ts,js}"],
+    "moduleFileExtensions": ["ts", "json", "js"],
+    "moduleNameMapper": {},
+    "roots": ["<rootDir>/src"],
+    "testEnvironment": "jsdom",
+    "testRegex": "test\\.ts$",
+    "transform": {
+        "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "transformIgnorePatterns": ["node_modules*"],
+    "setupFilesAfterEnv": ["<rootDir>/setup-tests.ts"]
+}
