@@ -1,3 +1,5 @@
+import { PipelineEvent } from '../PipelineEvent';
+
 import { Stage } from './Stage';
 
 /**
@@ -35,13 +37,6 @@ export abstract class IntermediateStage<IN, OUT> extends Stage<IN> {
   }
 
   /**
-   * Detach this stage from the pipeline, preventing it from running.
-   */
-  detach() {
-    this._detached = true;
-  }
-
-  /**
    * Resume this stage and its downstream stage as well. If a subclass overrides
    * this method, ensure that it also calls `super.resume()` so that the next stages
    * are resumed as well, otherwise, the stages downstream will not receive any more elements.
@@ -49,5 +44,23 @@ export abstract class IntermediateStage<IN, OUT> extends Stage<IN> {
   override resume(): void {
     this._downstream.resume();
     this._detached = false;
+  }
+
+  /**
+   * Detach this stage from the pipeline, preventing it from running.
+   */
+  protected _detach() {
+    this._detached = true;
+  }
+
+  /**
+   * Forward the given pipeline event to the downstream stage
+   *
+   * @param event The event to forward to the downstream stage
+   */
+  protected _cascadeEvent(event: PipelineEvent) {
+    if (this._downstream instanceof IntermediateStage) {
+      this._downstream._cascadeEvent(event);
+    }
   }
 }

@@ -157,22 +157,19 @@ export class LazyPipeline<IN> extends IntermediateStage<IN, any> implements Reus
 
   private _watchForPipelineEvent(event: PipelineEvent, stage: Stage<IN>) {
     switch (event) {
-      case PipelineEvent.TERMINATE_EARLY:
+      case PipelineEvent.TERMINATE_PIPELINE:
         this._isTerminated = true;
         break;
-      case PipelineEvent.DETACH_STAGE:
+      case PipelineEvent.STAGE_DETACHED:
         if (stage instanceof IntermediateStage) {
-          const indexOfStageToDetach = this._stages.indexOf(stage);
-          const stageBefore = this._stages[indexOfStageToDetach - 1];
-          const stageAfter = this._stages[indexOfStageToDetach + 1];
+          const indexOfDetachedStage = this._stages.indexOf(stage);
+          const stageBefore = this._stages[indexOfDetachedStage - 1];
+          const stageAfter = this._stages[indexOfDetachedStage + 1];
 
-          stage.detach();
           stageBefore?.pipeTo(stageAfter || this._terminalStage);
         } else {
           throw new Error(
-            `[LazyPipeline class] Only intermediate stages can be detached, detached staged was ${JSON.stringify(
-              stage
-            )}`
+            `[LazyPipeline class] Only intermediate stages can be detached, detached stage was ${JSON.stringify(stage)}`
           );
         }
     }

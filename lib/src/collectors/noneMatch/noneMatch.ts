@@ -11,7 +11,7 @@ class NoneMatchCollector<IN> extends TerminalStage<IN, boolean> {
   override consume(element: IN): void {
     this._noneMatch = !this._predicate(element);
     if (!this._noneMatch) {
-      this.broadcast(PipelineEvent.TERMINATE_EARLY);
+      this._broadcast(PipelineEvent.TERMINATE_PIPELINE);
     }
   }
 

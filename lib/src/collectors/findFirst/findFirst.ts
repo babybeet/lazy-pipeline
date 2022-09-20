@@ -7,7 +7,7 @@ class FindFirstCollector<IN> extends TerminalStage<IN, IN> {
   override consume(element: IN): void {
     if (this._firstElement === undefined) {
       this._firstElement = element;
-      this.broadcast(PipelineEvent.TERMINATE_EARLY);
+      this._broadcast(PipelineEvent.TERMINATE_PIPELINE);
     }
   }
 

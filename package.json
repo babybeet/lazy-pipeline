@@ -1,7 +1,7 @@
 {
     "name": "lazy-pipeline",
     "description": "A reusable, tree-shakable lazy pipeline with functional APIs",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "private": false,
     "publishConfig": {
         "access": "public"
@@ -25,8 +25,9 @@
     "scripts": {
         "prepare": "husky install && cd installation-test && npm i && cd ../lib && npm i",
         "test": "cd lib && npm run test",
-        "build": "cd lib && npm run build",
-        "publish": "npm run build && cd lib && cd dist && npm publish"
+        "build:dev": "cd lib && npm run build:dev",
+        "build:prod": "cd lib && npm run build:prod",
+        "publish": "npm run build:prod && cd lib && cd dist && npm publish"
     },
     "devDependencies": {
         "eslint": "^8.8.0",

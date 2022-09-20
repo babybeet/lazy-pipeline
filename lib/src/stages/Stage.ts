@@ -12,15 +12,18 @@ export abstract class Stage<IN> {
   private _eventSubscribers: Array<(event: PipelineEvent, stage: Stage<IN>) => void> = [];
 
   /**
-   * Notify all listeners of `event`.
+   * Consume a new element in the pipeline, this stage must call the downstream stage
+   * to let the elements flow thru the pipeline from source to the collector.
    *
-   * @param event The event with which to notify the listeners.
+   * @param element The element that this stage receives.
+   * @param hasMoreDataUpstream A flag to indicate whether there are more elements coming in.
    */
-  broadcast(event: PipelineEvent) {
-    for (const subscriber of this._eventSubscribers) {
-      subscriber(event, this);
-    }
-  }
+  abstract consume(element: IN, hasMoreDataUpstream: boolean): void;
+
+  /**
+   * Resume this stage so that it can be safely used again in the next run of the pipeline.
+   */
+  abstract resume(): void;
 
   /**
    * Subscribe to the provided event.
@@ -36,16 +39,13 @@ export abstract class Stage<IN> {
   }
 
   /**
-   * Consume a new element in the pipeline, this stage must call the downstream stage
-   * to let the elements flow thru the pipeline from source to the collector.
+   * Notify all listeners of `event`.
    *
-   * @param element The element that this stage receives.
-   * @param hasMoreDataUpstream A flag to indicate whether there are more elements coming in.
+   * @param event The event with which to notify the listeners.
    */
-  abstract consume(element: IN, hasMoreDataUpstream: boolean): void;
-
-  /**
-   * Resume this stage so that it can be safely used again in the next run of the pipeline.
-   */
-  abstract resume(): void;
+  protected _broadcast(event: PipelineEvent) {
+    for (const subscriber of this._eventSubscribers) {
+      subscriber(event, this);
+    }
+  }
 }

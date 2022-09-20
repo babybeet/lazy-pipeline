@@ -11,7 +11,8 @@ class SkipStage<IN> extends IntermediateStage<IN, IN> {
   override consume(element: IN, hasMoreDataUpstream: boolean): void {
     this._skippedElementCount++;
     if (this._skippedElementCount === this._skipCount) {
-      this.broadcast(PipelineEvent.DETACH_STAGE);
+      this._detach();
+      this._broadcast(PipelineEvent.STAGE_DETACHED);
     } else if (this._skipCount === 0) {
       this._downstream.consume(element, hasMoreDataUpstream);
     }

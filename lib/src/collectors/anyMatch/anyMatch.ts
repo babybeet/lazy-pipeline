@@ -11,7 +11,7 @@ class AnyMatchCollector<IN> extends TerminalStage<IN, boolean> {
   override consume(element: IN): void {
     this._anyMatch = this._predicate(element);
     if (this._anyMatch) {
-      this.broadcast(PipelineEvent.TERMINATE_EARLY);
+      this._broadcast(PipelineEvent.TERMINATE_PIPELINE);
     }
   }
 

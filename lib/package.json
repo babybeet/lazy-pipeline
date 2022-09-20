@@ -1,6 +1,6 @@
 {
     "name": "lazy-pipeline",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "A reusable, tree-shakable lazy pipeline with functional APIs",
     "private": false,
     "author": {
@@ -28,7 +28,9 @@
     "scripts": {
         "test": "jest",
         "compile": "tsc",
-        "build": "npm run compile && webpack --config webpack.config.js"
+        "build:dev": "npm run compile && webpack --config webpack.config.js --mode development",
+        "build:prod": "npm run compile && webpack --config webpack.config.js --mode production",
+        "lint": "eslint src/{*.ts,**/*.ts}"
     },
     "devDependencies": {
         "@testing-library/jest-dom": "^5.16.1",

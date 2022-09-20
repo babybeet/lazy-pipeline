@@ -12,7 +12,10 @@ jobs:
           pkg-manager: npm
       - run:
           command: npx prettier --check lib/src/{*.ts,**/*.ts}
-          name: Check code style format
+          name: Check code style format with Prettier
+      - run:
+          command: cd lib && npm run lint
+          name: Check code style format with ESLint
       - run:
           command: npm run test
           name: Run all tests

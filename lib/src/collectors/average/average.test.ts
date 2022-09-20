@@ -22,7 +22,7 @@ describe('average()', () => {
     const averageCollector = average();
     const consumeSpy = jest.spyOn(averageCollector, 'consume');
 
-    expect(consumeSpy).not.toBeCalled();
-    expect(() => pipeline.collect(averageCollector)).toThrowError('[average() collector] Pipeline contains 0 elements');
+    expect(consumeSpy).not.toHaveBeenCalled();
+    expect(() => pipeline.collect(averageCollector)).toThrow('[average() collector] Pipeline contains 0 elements');
   });
 });

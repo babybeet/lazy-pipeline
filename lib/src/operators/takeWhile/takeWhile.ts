@@ -11,7 +11,8 @@ class TakeWhileStage<IN> extends IntermediateStage<IN, IN> {
     if (shouldKeepTaking) {
       this._downstream.consume(element, hasMoreDataUpstream);
     } else {
-      this.broadcast(PipelineEvent.TERMINATE_EARLY);
+      this._broadcast(PipelineEvent.TERMINATE_PIPELINE);
+      this._cascadeEvent(PipelineEvent.TERMINATE_PIPELINE);
     }
   }
 }

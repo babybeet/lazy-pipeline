@@ -3,13 +3,13 @@
  */
 export const enum PipelineEvent {
   /**
-   * An event broadcast by a stage to indicate that the pipeline should terminate early and return the result.
+   * An event broadcast by a stage to indicate that the pipeline should terminate and return the result.
    */
-  TERMINATE_EARLY = 'TERMINATE_EARLY',
+  TERMINATE_PIPELINE = 'TERMINATE_PIPELINE',
 
   /**
-   * Stages wish to detach themselves from the pipeline can raise this event, detached stages are not executed
-   * when the pipeline is evaluated when a terminal stage is triggered.
+   * Stages that detach themselves from the pipeline should raise this event, detached stages
+   * are not executed when the pipeline is evaluated when a terminal stage is triggered.
    */
-  DETACH_STAGE = 'DETACH_STAGE'
+  STAGE_DETACHED = 'STAGE_DETACHED'
 }

@@ -1,3 +1,5 @@
+import { PipelineEvent } from 'PipelineEvent';
+
 import { IntermediateStage } from '../../stages';
 
 class SortedStage<IN> extends IntermediateStage<IN, IN> {
@@ -11,18 +13,29 @@ class SortedStage<IN> extends IntermediateStage<IN, IN> {
     this._accumulator.push(element);
 
     if (!hasMoreDataUpstream) {
-      this._accumulator.sort(this._comparator);
+      this._forwardSortedElementsDownstream();
+    }
+  }
 
-      const totalElementCount = this._accumulator.length;
-      for (let index = 0; index < totalElementCount; index++) {
-        this._downstream.consume(this._accumulator[index], index !== totalElementCount - 1);
-      }
+  private _forwardSortedElementsDownstream() {
+    this._accumulator.sort(this._comparator);
+
+    const totalElementCount = this._accumulator.length;
+    for (let index = 0; index < totalElementCount; index++) {
+      this._downstream.consume(this._accumulator[index], index !== totalElementCount - 1);
     }
   }
 
   override resume(): void {
     this._accumulator = [];
     super.resume();
+  }
+
+  protected override _cascadeEvent(event: PipelineEvent): void {
+    if (event === PipelineEvent.TERMINATE_PIPELINE) {
+      this._forwardSortedElementsDownstream();
+    }
+    super._cascadeEvent(event);
   }
 }
 

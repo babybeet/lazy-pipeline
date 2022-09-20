@@ -1,3 +1,4 @@
+import { limit } from '../limit';
 import { toArray } from '../../collectors';
 import { LazyPipeline } from '../../LazyPipeline';
 import { filter } from '../filter';
@@ -45,5 +46,17 @@ describe('sorted()', () => {
 
     expect(result).toHaveLength(0);
     expect(consumeSpy).not.toHaveBeenCalled();
+  });
+
+  test('4. should forward sorted elements to downstream stage when pipeline terminates by an upstream stage', () => {
+    const source = [0, 2, 1, 5, 4, 6, 8, 10, 11, 10, 8, 6, 12, 13, 17];
+    const pipeline = LazyPipeline.from(source);
+    const stage = sorted();
+    const consumeSpy = jest.spyOn(stage, 'consume');
+    const result = pipeline.add(limit(5), stage).collect(toArray());
+    const expected = source.slice(0, 5).sort();
+
+    expect(result).toEqual(expected);
+    expect(consumeSpy).toHaveBeenCalledTimes(5);
   });
 });

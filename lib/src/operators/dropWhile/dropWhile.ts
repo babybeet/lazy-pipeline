@@ -10,7 +10,8 @@ class DropWhileStage<IN> extends IntermediateStage<IN, IN> {
     const shouldKeepDropping = this._predicate(element);
     if (!shouldKeepDropping) {
       this._downstream.consume(element, hasMoreDataUpstream);
-      this.broadcast(PipelineEvent.DETACH_STAGE);
+      this._detach();
+      this._broadcast(PipelineEvent.STAGE_DETACHED);
     }
   }
 }

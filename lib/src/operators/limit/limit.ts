@@ -14,7 +14,8 @@ class LimitStage<IN> extends IntermediateStage<IN, IN> {
       this._seenElementCount++;
     }
     if (this._seenElementCount === this._limit) {
-      this.broadcast(PipelineEvent.TERMINATE_EARLY);
+      this._broadcast(PipelineEvent.TERMINATE_PIPELINE);
+      this._cascadeEvent(PipelineEvent.TERMINATE_PIPELINE);
     }
   }
 
