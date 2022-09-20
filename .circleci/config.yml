@@ -20,7 +20,7 @@ jobs:
           command: npm run test
           name: Run all tests
       - run:
-          command: npm run build
+          command: npm run build:prod
           name: Build library
 
 workflows:
