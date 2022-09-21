@@ -4,26 +4,68 @@ orbs:
   node: circleci/node@5.0.2
 
 jobs:
-  build_test_lint:
-    executor: node/default
+  lint-and-test:
+    docker:
+      - image: 'cimg/base:stable'
     steps:
       - checkout
+      - node/install:
+          install-yarn: false
+          node-version: 16.17.0
       - node/install-packages:
           pkg-manager: npm
       - run:
-          command: npx prettier --check lib/src/{*.ts,**/*.ts}
-          name: Check code style format with Prettier
-      - run:
-          command: cd lib && npm run lint
-          name: Check code style format with ESLint
-      - run:
-          command: npm run test
-          name: Run all tests
-      - run:
-          command: npm run build:prod
-          name: Build library
+          command: |
+            chmod +x .circleci/scripts/lint-and-test.sh
+            .circleci/scripts/lint-and-test.sh
+          name: Linting and running all tests
 
+  publish-to-npm-registry:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: false
+          node-version: 16.17.0
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          command: |
+            chmod +x .circleci/scripts/publish-to-npm-registry.sh
+            .circleci/scripts/publish-to-npm-registry.sh
+          name: Publishing to npm registry
+
+  versioning:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - 'd8:d3:dc:49:d7:ad:6a:b1:5b:f1:4e:28:44:a8:6d:b5'
+      - node/install:
+          install-yarn: false
+          node-version: 16.17.0
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          command: |
+            chmod +x .circleci/scripts/versioning.sh
+            .circleci/scripts/versioning.sh
+          name: Bumping version
 workflows:
-  verification:
+  deployment:
     jobs:
-      - build_test_lint
+      - lint-and-test
+      - versioning:
+          filters:
+            branches:
+              only: main
+      - publish-to-npm-registry:
+          requires:
+            - lint-and-test
+            - versioning
+          filters:
+            tags:
+              only: /v[0-9]+\.[0-9]+\.[0-9]+/
