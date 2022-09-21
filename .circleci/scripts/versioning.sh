@@ -9,7 +9,7 @@ if [[ "$COMMIT_MESSAGE" == "Bumping version to"* ]]; then
     exit 0
 fi
 
-function matchPattern {
+function matchCommitMessagePattern {
     KEYWORD_PATTERN="$1"
 
     echo $COMMIT_MESSAGE | sed -E "s/^-[[:space:]]*//" | grep -iE "^($KEYWORD_PATTERN)(\(.+\))?\s*:" | wc -l | awk "{print \$1}"
@@ -20,11 +20,11 @@ function extractVersionFromPackageJsonFile {
 }
 
 function bumpPackageVersion {
-    if [ $(matchPattern "build|chore|ci|docs|fix|perf|refactor|style|test") != "0" ]; then
+    if [ $(matchCommitMessagePattern "build|chore|ci|docs|fix|perf|refactor|style|test") != "0" ]; then
         npm version patch --no-git-tag-version
-    elif [ $(matchPattern "feat") != "0" ]; then
+    elif [ $(matchCommitMessagePattern "feat") != "0" ]; then
         npm version minor --no-git-tag-version
-    elif [ $(matchPattern "breaking(\s*change)?") != "0" ]; then
+    elif [ $(matchCommitMessagePattern "breaking(\s*change)?") != "0" ]; then
         npm version major --no-git-tag-version
     else
         echo "Commit message should start with a valid type, please see https://github.com/nhuyvan/lazy-pipeline/CONTRIBUTING.md to learn more"
@@ -43,7 +43,7 @@ cd ..
 git config --global user.email "circleci@email.com"
 git config --global user.name "CircleCI"
 
-if [ $(matchPattern "fix|refactor|feat|breaking(\s*change)?") != "0" ]; then
+if [ $(matchCommitMessagePattern "fix|refactor|feat|breaking(\s*change)?") != "0" ]; then
     NEW_TAG="v$NEW_VERSION"
     git tag "$NEW_TAG"
     git push origin "$NEW_TAG"
