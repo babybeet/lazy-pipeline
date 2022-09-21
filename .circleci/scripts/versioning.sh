@@ -2,9 +2,9 @@
 
 set -e
 
-COMMIT_MESSAGE=$(git log -n 1 --format=%s | tr -d "\n")
+LATEST_COMMIT_MESSAGE=$(git log -n 1 --format=%s | tr -d "\n")
 
-if [[ "$COMMIT_MESSAGE" == "Bumping version to"* ]]; then
+if [[ "$LATEST_COMMIT_MESSAGE" == "Bumping version to"* ]]; then
     echo "Versioning has already occurred, exiting."
     exit 0
 fi
@@ -12,7 +12,7 @@ fi
 function matchCommitMessagePattern {
     KEYWORD_PATTERN="$1"
 
-    echo $COMMIT_MESSAGE | sed -E "s/^-[[:space:]]*//" | grep -iE "^($KEYWORD_PATTERN)(\(.+\))?\s*:" | wc -l | awk "{print \$1}"
+    echo $LATEST_COMMIT_MESSAGE | sed -E "s/^-[[:space:]]*//" | grep -iE "^($KEYWORD_PATTERN)(\(.+\))?\s*:" | wc -l | awk "{print \$1}"
 }
 
 function extractVersionFromPackageJsonFile {
@@ -34,22 +34,24 @@ function bumpPackageVersion {
     extractVersionFromPackageJsonFile
 }
 
-bumpPackageVersion
-NEW_VERSION=$(extractVersionFromPackageJsonFile)
-cd lib
-npm version "$NEW_VERSION" --no-git-tag-version
-cd ..
-
-git config --global user.email "circleci@email.com"
-git config --global user.name "CircleCI"
-
 if [ $(matchCommitMessagePattern "fix|refactor|feat|breaking(\s*change)?") != "0" ]; then
+    bumpPackageVersion
+    NEW_VERSION=$(extractVersionFromPackageJsonFile)
+    cd lib
+    npm version "$NEW_VERSION" --no-git-tag-version
+    cd ..
+
+    git config --global user.email "circleci@email.com"
+    git config --global user.name "CircleCI"
+
+    git add {.,lib}/{package,package-lock}.json
+    git commit -m "Bumping version to $NEW_VERSION for release build."
+    git push origin main
+
     NEW_TAG="v$NEW_VERSION"
     git tag "$NEW_TAG"
     git push origin "$NEW_TAG"
     echo "Created Git tag $NEW_TAG."
+else
+    echo "Commit message does not start with /fix|refactor|feat|breaking(\s*change)?/, exiting."
 fi
-
-git add {.,lib}/{package,package-lock}.json
-git commit -m "Bumping version to $NEW_VERSION for release build."
-git push origin main

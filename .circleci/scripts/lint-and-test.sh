@@ -2,9 +2,9 @@
 
 set -e
 
-COMMIT_MESSAGE=$(git log -n 1 --format=%s | tr -d "\n")
+LATEST_COMMIT_MESSAGE=$(git log -n 1 --format=%s | tr -d "\n")
 
-if [[ "$COMMIT_MESSAGE" == "Bumping version to"* ]]; then
+if [[ "$LATEST_COMMIT_MESSAGE" == "Bumping version to"* ]]; then
     echo "Linting and testing have already occurred, exiting."
     exit 0
 fi
