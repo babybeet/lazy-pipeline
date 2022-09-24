@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "module": "esnext",
+        "outDir": "./build"
+    },
+    "exclude": [
+        "node_modules",
+        "dist",
+        "build",
+        "ignores",
+        "tools"
+    ]
+}

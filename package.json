@@ -23,11 +23,12 @@
         "tree-shakable pipeline"
     ],
     "scripts": {
-        "prepare": "husky install && cd installation-test && npm i && cd ../lib && npm i",
+        "prepare": "husky install && cd benchmark-test && npm i && cd ../lib && npm i",
         "test": "cd lib && npm run test",
         "build:dev": "cd lib && npm run build:dev",
         "build:prod": "cd lib && npm run build:prod",
-        "publish": "npm run build:prod && cd lib && cd dist && npm publish"
+        "publish": "npm run build:prod && cd lib && cd dist && npm publish",
+        "benchmark": "cd benchmark-test && npm run benchmark"
     },
     "devDependencies": {
         "eslint": "^8.8.0",

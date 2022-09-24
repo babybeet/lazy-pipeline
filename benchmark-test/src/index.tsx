@@ -2,14 +2,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { LazyPipeline } from 'lazy-pipeline';
-import { toArray } from 'lazy-pipeline/collectors';
 import { distinct, limit, map, sorted } from 'lazy-pipeline/operators';
-
-import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <h1>ES module import testing for lazy-pipeline library</h1>
   </React.StrictMode>,
   document.getElementById('root')
 );
@@ -30,8 +27,4 @@ const result = pipeline
   )
   .toArray();
 
-console.log(result);
-
-pipeline.resume();
-
-console.log(pipeline.collect(toArray()));
+console.log(JSON.stringify(expected) === JSON.stringify(result));
