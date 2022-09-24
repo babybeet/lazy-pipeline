@@ -1,4 +1,4 @@
-# `lazy-pipeline`
+# `lazy-pipeline` [![](https://circleci.com/gh/nhuyvan/lazy-pipeline.svg?style=svg&logo=appveyor)](https://app.circleci.com/pipelines/github/nhuyvan/lazy-pipeline?branch=main)
 
 A super light-weight, tree-shakeable, reusable, lazy pipeline TypeScript library with functional APIs and no 3rd-party
 dependencies.
