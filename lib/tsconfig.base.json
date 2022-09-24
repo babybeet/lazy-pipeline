@@ -1,0 +1,42 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "allowSyntheticDefaultImports": false,
+        "baseUrl": ".",
+        "declaration": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "moduleResolution": "node",
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "resolveJsonModule": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "strict": false,
+        "strictNullChecks": false,
+        "suppressImplicitAnyIndexErrors": true,
+        "target": "esnext",
+        "types": [
+            "@types/jest",
+            "@testing-library/jest-dom"
+        ],
+        "preserveConstEnums": false
+    },
+    "exclude": [
+        "node_modules",
+        "dist",
+        "ignores",
+        "build",
+        "tools",
+        "webpack.config.js",
+        "setup-tests.ts",
+        "**/*.test.ts"
+    ]
+}

@@ -1,5 +1,4 @@
-import { PipelineEvent } from 'PipelineEvent';
-
+import { PipelineEvent } from '../../PipelineEvent';
 import { IntermediateStage } from '../../stages';
 
 class SortedStage<IN> extends IntermediateStage<IN, IN> {

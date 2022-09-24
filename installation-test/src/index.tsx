@@ -1,37 +1,53 @@
+/* eslint-disable newline-per-chained-call */
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable no-console */
-import React from 'react';
-import ReactDOM from 'react-dom';
+
 import { LazyPipeline } from 'lazy-pipeline';
-import { toArray } from 'lazy-pipeline/collectors';
-import { distinct, limit, map, sorted } from 'lazy-pipeline/operators';
+import { filter, map, sorted } from 'lazy-pipeline/operators';
 
-import App from './App';
+const source = new Array(10_000_000).fill(undefined).map((_, index) => index + 1);
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+warmUp();
 
-const source = [2, 4, 5, 9, 6, 8, 10, 2, 4, 3];
-const pipeline = LazyPipeline.from(source);
-const expected = Array.from(new Set(source))
-  .map(e => e + 1)
-  .sort((left, right) => right - left)
-  .slice(0, 3);
+measure(runPipelineWithLazyPipelineLibrary, source);
+measure(runPipelineWithNativeArray, source);
 
-const result = pipeline
-  .add(
-    map(e => e + 1),
-    distinct(),
-    sorted((left, right) => right - left),
-    limit(3)
-  )
-  .toArray();
+function warmUp(sum = 0, iteration = 1): number {
+  if (iteration === 10) {
+    return sum;
+  }
+  for (const iterator of new Array(20e6).fill(1)) {
+    sum = iterator;
+  }
+  return warmUp(sum, iteration + 1);
+}
 
-console.log(result);
+function measure(fn: (...args: any[]) => void, ...args: any[]) {
+  const timePerRun = [];
+  for (let index = 0; index < 10; index++) {
+    const now = performance.now();
+    fn(args);
+    timePerRun.push(performance.now() - now);
+  }
 
-pipeline.resume();
+  const averageTime = timePerRun.reduce((a, b) => a + b) / timePerRun.length;
 
-console.log(pipeline.collect(toArray()));
+  console.log(`${fn.name} took ${(averageTime / 1000).toFixed(5)} seconds on average`);
+}
+
+function runPipelineWithNativeArray(source: number[]) {
+  source
+    .filter(value => value % 2 === 0)
+    .map(value => ({ age: value }))
+    .sort((a, b) => b.age - a.age);
+}
+
+function runPipelineWithLazyPipelineLibrary(source: number[]) {
+  LazyPipeline.from(source)
+    .add(
+      filter(value => value % 2 === 0),
+      map(value => ({ age: value })),
+      sorted((a, b) => b.age - a.age)
+    )
+    .toArray();
+}

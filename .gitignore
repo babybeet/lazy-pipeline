@@ -1,4 +1,4 @@
-ignores
+ignored
 node_modules
 **/*.tmp
 **/*.temp

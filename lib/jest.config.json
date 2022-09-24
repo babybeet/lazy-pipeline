@@ -9,5 +9,10 @@
         "^.+\\.(t|j)s$": "ts-jest"
     },
     "transformIgnorePatterns": ["node_modules*"],
-    "setupFilesAfterEnv": ["<rootDir>/setup-tests.ts"]
+    "setupFilesAfterEnv": ["<rootDir>/setup-tests.ts"],
+    "globals": {
+        "ts-jest": {
+            "tsconfig": "tsconfig.test.json"
+        }
+    }
 }
