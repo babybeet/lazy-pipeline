@@ -10,6 +10,7 @@ export { join } from './join';
 export { max } from './max';
 export { min } from './min';
 export { noneMatch } from './noneMatch';
+export { reduce } from './reduce';
 export { sum } from './sum';
 export { toArray } from './toArray';
 export { toMap } from './toMap';

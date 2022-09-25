@@ -1,6 +1,6 @@
 import { TerminalStage } from '../../stages';
 
-class ArrayCollector<IN> extends TerminalStage<IN, IN[]> {
+class ToArrayCollector<IN> extends TerminalStage<IN, IN[]> {
   private _elements: IN[] = [];
 
   override consume(element: IN): void {
@@ -24,5 +24,5 @@ class ArrayCollector<IN> extends TerminalStage<IN, IN[]> {
  * @returns
  */
 export function toArray<IN>(): TerminalStage<IN, IN[]> {
-  return new ArrayCollector<IN>();
+  return new ToArrayCollector<IN>();
 }
