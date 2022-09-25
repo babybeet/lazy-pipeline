@@ -1,6 +1,6 @@
 {
     "name": "lazy-pipeline",
-    "version": "2.3.0",
+    "version": "2.4.0",
     "description": "A reusable, tree-shakable lazy pipeline with functional APIs",
     "private": false,
     "author": {
