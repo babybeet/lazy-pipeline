@@ -3,8 +3,7 @@
 A super light-weight, tree-shakeable, reusable, lazy pipeline TypeScript library with functional APIs and no 3rd-party
 dependencies.
 
-`lazy-pipeline` package is only
-[2.6KB minified and 1KB gzipped+minified](https://bundlephobia.com/package/lazy-pipeline), but with its tree-shakeable
+`lazy-pipeline` package is [already tiny](https://bundlephobia.com/package/lazy-pipeline), but with its tree-shakeable
 design, the final package size will be reduced much more by the build tool.
 
 ## Installation
