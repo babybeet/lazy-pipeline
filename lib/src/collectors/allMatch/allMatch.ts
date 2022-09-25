@@ -32,7 +32,6 @@ class AllMatchCollector<IN> extends TerminalStage<IN, boolean> {
  * @template IN The type parameter of each incoming element in the pipeline.
  *
  * @returns
- *
  */
 export function allMatch<IN>(predicate: (element: IN) => boolean): TerminalStage<IN, boolean> {
   return new AllMatchCollector<IN>(predicate);

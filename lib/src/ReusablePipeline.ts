@@ -31,6 +31,13 @@ export interface ReusablePipeline<IN> {
   toArray(): IN[];
 
   /**
+   * Execute the given `action` on each pipeline element
+   *
+   * @param action
+   */
+  forEach(action: (element: IN) => void): undefined;
+
+  /**
    * Resume this pipeline so that it can be used again.
    */
   resume(): void;
