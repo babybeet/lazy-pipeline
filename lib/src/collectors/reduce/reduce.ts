@@ -37,7 +37,7 @@ class ReduceCollector<IN, OUT = IN> extends TerminalStage<IN, OUT> {
 
 /**
  * Return a terminal stage that performs a reduction of the received pipeline elements using the
- * provided* `reducer` function, optionally accepting an initial value as the second argument.
+ * provided `reducer` function, optionally accepting an initial value as the second argument.
  *
  * The `reducer` function accepts 2 arguments, the first argument is the accumulator value that will
  * be returned when the reduction is complete, the second argument is the next pipeline element to
@@ -50,6 +50,7 @@ class ReduceCollector<IN, OUT = IN> extends TerminalStage<IN, OUT> {
  * @param initialValue The optional initial value used for the reduction.
  *
  * @template IN The type parameter of each incoming element in the pipeline.
+ * @template OUT The type parameter of final reduction result.
  *
  * @returns
  */
