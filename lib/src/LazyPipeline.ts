@@ -2,6 +2,7 @@ import { toArray } from './collectors/toArray';
 import { ReusablePipeline } from './ReusablePipeline';
 import { PipelineEvent } from './PipelineEvent';
 import { IntermediateStage, Stage, TerminalStage } from './stages';
+import { forEach } from './collectors';
 
 /**
  * A reusable pipeline that lazily evaluates the data processing operations which are referred to as stages.
@@ -202,6 +203,10 @@ export class LazyPipeline<IN> extends IntermediateStage<IN, any> implements Reus
 
   toArray(): IN[] {
     return this.collect(toArray<IN>());
+  }
+
+  forEach(action: (element: IN) => void): undefined {
+    return this.collect(forEach(action));
   }
 
   resume(): void {

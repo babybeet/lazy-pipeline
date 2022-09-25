@@ -4,6 +4,7 @@ export { average } from './average';
 export { count } from './count';
 export { findFirst } from './findFirst';
 export { findLast } from './findLast';
+export { forEach } from './forEach';
 export { groupBy } from './groupBy';
 export { max } from './max';
 export { min } from './min';
