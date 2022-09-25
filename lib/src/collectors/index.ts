@@ -6,6 +6,7 @@ export { findFirst } from './findFirst';
 export { findLast } from './findLast';
 export { forEach } from './forEach';
 export { groupBy } from './groupBy';
+export { join } from './join';
 export { max } from './max';
 export { min } from './min';
 export { noneMatch } from './noneMatch';

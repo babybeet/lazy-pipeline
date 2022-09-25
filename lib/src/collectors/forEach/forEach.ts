@@ -20,7 +20,7 @@ class ForEachCollector<IN> extends TerminalStage<IN, undefined> {
 /**
  * Return a terminal stage that executes the given `action` on each pipeline element.
  *
- * @param action The action to execute on each pipeline element
+ * @param action The action to execute on each pipeline element.
  *
  * @template IN The type parameter of each incoming element in the pipeline.
  *
